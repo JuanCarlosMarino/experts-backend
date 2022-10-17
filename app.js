@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var mongoose = require("mongoose");
 app.use(express.json());
+app.use(require('./routers/routers'));
 app.use(
   express.urlencoded({
     extended: true,
@@ -24,4 +25,5 @@ app.use((req, res, next) => {
   res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
   next();
 });
+
 module.exports = app;
