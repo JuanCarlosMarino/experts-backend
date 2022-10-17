@@ -1,3 +1,4 @@
+var Expert = require('../models/Expert')
 function prueba(req, res) {
   res.status(200).send({
     message: "probando una acción",
@@ -13,7 +14,7 @@ function saveExpert(req, res) {
 
 function buscarData(req, res) {
   var idExpert = req.params.id;
-  expert.findById(idExpert).exec((err, result) => {
+  Expert.findById(idExpert).exec((err, result) => {
     if (err) {
       res
         .status(500)
