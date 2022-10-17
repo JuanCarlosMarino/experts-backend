@@ -9,13 +9,14 @@ let expertSchema = new Schema({
         type: String
     },
     occupation: {
-        type: Number
+        type: String
     },
     location: {
         type: String
     }
 }, {
-    collection: 'experts'
+    collection: 'experts',
+    versionKey: false
 });
 var Expert = mongoose.model('expert', expertSchema)
 module.exports = Expert

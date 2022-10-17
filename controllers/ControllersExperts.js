@@ -1,4 +1,4 @@
-var Expert = require('../models/Expert')
+var Expert = require("../models/Expert");
 function prueba(req, res) {
   res.status(200).send({
     message: "probando una acción",
@@ -14,7 +14,9 @@ function saveExpert(req, res) {
 
 function buscarData(req, res) {
   var idExpert = req.params.id;
+  console.log(idExpert);
   Expert.findById(idExpert).exec((err, result) => {
+    console.log(result);
     if (err) {
       res
         .status(500)
@@ -56,7 +58,7 @@ function listarAllData(req, res) {
 }
 
 function updateExpert(req, res) {
-  var id = mongoose.Types.ObjectId(req.query.productId);
+  var id = req.params.id;
   Expert.findOneAndUpdate(
     { _id: id },
     req.body,
