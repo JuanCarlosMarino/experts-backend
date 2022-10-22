@@ -1,7 +1,7 @@
 var Expert = require("../models/Expert");
 function prueba(req, res) {
   res.status(200).send({
-    message: "probando una acción",
+    message: "Aplicación Experts corriendo...",
   });
 }
 

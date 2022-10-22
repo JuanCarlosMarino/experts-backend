@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-mongoose.connect(
+const mongoose = require("mongoose");//Llamado a la dependencia mongoose
+mongoose.connect(//Comando para conectarse con la base de datos en el caso 
   "mongodb://localhost:27017/expertsDB",  
   (err, res) => {
     if (err) {
