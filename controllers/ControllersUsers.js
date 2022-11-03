@@ -67,7 +67,7 @@ function login(req, res) {
 function updateUser(req, res) {
   jwt.verify(req.token, "secretKey", (error, authData) => {
     if (error) {
-      res.status(403);
+      res.json({message: error});
     } else {
       var id = req.params.id;
       User.findOneAndUpdate({ _id: id },req.body,{ new: true }, function (err, expert) {
@@ -81,6 +81,19 @@ function updateUser(req, res) {
     }
   });
 }
+
+function validToken(req, res) {
+  jwt.verify(req.token, "secretKey", (error, authData) => {
+    if (error) {
+      res.json({message: error, isValid:false});
+    } else {
+      res.json({isValid: true})
+    }
+  });
+}
+
+
+
 
 function buscarData(req, res) {
   var idExpert = req.params.id;
@@ -147,4 +160,5 @@ module.exports = {
   listarAllData,
   updateUser,
   deleteUser,
+  validToken
 };
