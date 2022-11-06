@@ -11,11 +11,12 @@ router.post('/user/create',controllerUsers.saveUser);//Ruta con método post par
 router.post('/user/login', controllerUsers.login); //Ruta con método post parra loggearse y obtener token
 router.put('/user/update/:id', controllerTokens.verifyToken,controllerUsers.updateUser);//Ruta con método put para actualizar un usuario
 router.get('/user/valid/token',controllerTokens.verifyToken, controllerUsers.validToken);//Validar token
+//convertir usuario en experto
+//consultar expertos por ubicacion
+
 
 //Manejo de ubicaciones 
-
-
-
+//consultar ubicaciones registradas
 
 
 
