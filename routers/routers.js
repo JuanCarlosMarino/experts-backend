@@ -12,6 +12,10 @@ router.post('/user/login', controllerUsers.login); //Ruta con método post parra
 router.put('/user/update/:id', controllerTokens.verifyToken,controllerUsers.updateUser);//Ruta con método put para actualizar un usuario
 router.get('/user/valid/token',controllerTokens.verifyToken, controllerUsers.validToken);//Validar token
 
+//Manejo de ubicaciones 
+
+
+
 
 
 
