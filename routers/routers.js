@@ -2,6 +2,7 @@ let express = require("express");//Llamado a la dependencia express
 let router = express.Router();//Creación del router usando express
 var controllerUsers = require("../controllers/ControllersUsers");//llamado al controlador experts
 var controllerTokens = require("../controllers/ControllersTokens")
+var controllerLocations = require('../controllers/ControllersLocations')
 
 
 router.get("/app", controllerUsers.prueba);//Ruta con método get de prueba de la app
@@ -11,12 +12,12 @@ router.post('/user/create',controllerUsers.saveUser);//Ruta con método post par
 router.post('/user/login', controllerUsers.login); //Ruta con método post parra loggearse y obtener token
 router.put('/user/update/:id', controllerTokens.verifyToken,controllerUsers.updateUser);//Ruta con método put para actualizar un usuario
 router.get('/user/valid/token',controllerTokens.verifyToken, controllerUsers.validToken);//Validar token
-//convertir usuario en experto
-//consultar expertos por ubicacion
+router.post('/user/userToExpert/:id',controllerTokens.verifyToken ,controllerUsers.userToExpert)//convertir usuario en experto
+router.get('/user/locationExperts' , controllerUsers.buscarExperts)//consultar expertos por ubicacion
 
 
 //Manejo de ubicaciones 
-//consultar ubicaciones registradas
+router.get('/location/locations',controllerLocations.listarAllLocations)//consultar ubicaciones registradas
 
 
 

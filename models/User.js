@@ -14,7 +14,8 @@ let userSchema = new Schema({
         type: String
     },
     location: {
-        type: String
+        ref: 'location',
+        type: mongoose.Types.ObjectId
     },
     nickname:{
         type: String,

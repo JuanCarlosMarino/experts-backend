@@ -47,7 +47,7 @@ function login(req, res) {
               { expiresIn: "1h" },
               (err, token) => {
                 res.status(200).json({
-                  token: token, access: true
+                  token: token, access: true, nickname: user.nickname
                 });
               }
             );
@@ -152,6 +152,45 @@ function deleteUser(req, res) {
   });
 }
 
+function buscarExperts(req, res) {
+  var idExpert = req.params.id;
+  console.log(idExpert);
+  User.findById(idExpert).exec((err, result) => {
+    console.log(result);
+    if (err) {
+      res
+        .status(500)
+        .send({ message: "Error al momento de ejecutar la solicitud" });
+    } else {
+      if (!result) {
+        res
+          .status(404)
+          .send({ message: "El registro a buscar no se encuentra disponible" });
+      } else {
+        res.status(200).send({ result });
+      }
+    }
+  });
+}
+
+function userToExpert(req, res) {
+  jwt.verify(req.token, "secretKey", (error, authData) => {
+    if (error) {
+      res.json({message: error});
+    } else {
+      var id = req.params.id;
+      User.findOneAndUpdate({ _id: id },req.body,{ new: true }, function (err, expert) {
+          if (err) {
+            res.send(err);
+          }else{
+            res.json({message: "Usuario actualizado"});
+          }
+        }
+      );
+    }
+  });
+}
+
 module.exports = {
   prueba,
   saveUser,
@@ -160,5 +199,7 @@ module.exports = {
   listarAllData,
   updateUser,
   deleteUser,
-  validToken
+  validToken,
+  buscarExperts,
+  userToExpert
 };

@@ -1,53 +1,32 @@
 var User = require("../models/User");
+var Location = require("../models/Location")
 var bcrypt = require("bcrypt-nodejs");
 const jwt = require("jsonwebtoken");
 
-function buscarData(req, res) {
-    var idExpert = req.params.id;
-    console.log(idExpert);
-    User.findById(idExpert).exec((err, result) => {
-      console.log(result);
-      if (err) {
-        res
-          .status(500)
-          .send({ message: "Error al momento de ejecutar la solicitud" });
-      } else {
-        if (!result) {
-          res
-            .status(404)
-            .send({ message: "El registro a buscar no se encuentra disponible" });
-        } else {
-          res.status(200).send({ result });
-        }
-      }
-    });
-  }
-  
-  function listarAllData(req, res) {
-    var idExpert = req.params.id;
-    if (!idExpert) {
-      var result = User.find({}).sort("firstname");
+function listarAllLocations(req, res) {
+    var locations = req.params.name
+    if (!locations) {
+        var result = Location.find({}).sort("name");
     } else {
-      var result = User.find({ _id: idExpert }).sort("firstname");
+        var result = Location.find({ _id: locations }).sort("name");
     }
     result.exec(function (err, result) {
-      if (err) {
-        res
-          .status(500)
-          .send({ message: "Error al momento de ejecutar la solicitud" });
-      } else {
-        if (!result) {
-          res
-            .status(404)
-            .send({ message: "El registro a buscar no se encuentra disponible" });
+        if (err) {
+            res
+                .status(500)
+                .send({ message: "Error al momento de ejecutar la solicitud" });
         } else {
-          res.status(200).send({ result });
+            if (!result) {
+                res
+                    .status(404)
+                    .send({ message: "El registro a buscar no se encuentra disponible" });
+            } else {
+                res.status(200).send({ result });
+            }
         }
-      }
     });
-  }
+}
 
-  module.exports = {
-    buscarData,
-    listarAllData,
-  };
+module.exports = {
+    listarAllLocations
+};
