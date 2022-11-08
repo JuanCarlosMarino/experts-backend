@@ -183,24 +183,6 @@ function buscarExperts(req, res) {
   });
 }
 
-function userToExpert(req, res) {
-  jwt.verify(req.token, "secretKey", (error, authData) => {
-    if (error) {
-      res.json({ message: error });
-    } else {
-      var id = req.params.id;
-      User.findOneAndUpdate({ _id: id }, req.body, { new: true }, function (err, expert) {
-        if (err) {
-          res.send(err);
-        } else {
-          res.json({ message: "Usuario actualizado" });
-        }
-      }
-      );
-    }
-  });
-}
-
 function getUserByNick(req, res) {
   jwt.verify(req.token, "secretKey", (error, authData) => {
     if (error) {
@@ -241,6 +223,5 @@ module.exports = {
   deleteUser,
   validToken,
   buscarExperts,
-  userToExpert,
   getUserByNick
 };
