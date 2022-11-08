@@ -1,6 +1,7 @@
 var User = require("../models/User");
 var bcrypt = require("bcrypt-nodejs");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose")
 
 //probar un controlador
 function prueba(req, res) {
@@ -18,7 +19,7 @@ function saveUser(req, res) {
   var myUser = new User(user);
   myUser.save((err, result) => {
     if (err) {
-      res.send({error: err, isAccept: false});
+      res.send({ error: err, isAccept: false });
     } else {
       res.status(200).send({ message: result, isAccept: true });
     }
@@ -67,16 +68,20 @@ function login(req, res) {
 function updateUser(req, res) {
   jwt.verify(req.token, "secretKey", (error, authData) => {
     if (error) {
-      res.json({message: error});
+      res.json({ message: error });
     } else {
-      var id = req.params.id;
-      User.findOneAndUpdate({ _id: id },req.body,{ new: true }, function (err, expert) {
-          if (err) {
-            res.send(err);
-          }else{
-            res.json({message: "Usuario actualizado"});
-          }
+      var nick = req.params.nick;
+      var user = req.body;
+      if (user.location) {
+        user.location = mongoose.Types.ObjectId(user.location)
+      }
+      User.findOneAndUpdate({ nickname: nick }, user , { new: true }, function (err, expert) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json({ message: "Usuario actualizado" });
         }
+      }
       );
     }
   });
@@ -85,9 +90,9 @@ function updateUser(req, res) {
 function validToken(req, res) {
   jwt.verify(req.token, "secretKey", (error, authData) => {
     if (error) {
-      res.json({message: error, isValid:false});
+      res.json({ message: error, isValid: false });
     } else {
-      res.json({isValid: true})
+      res.json({ isValid: true })
     }
   });
 }
@@ -153,10 +158,15 @@ function deleteUser(req, res) {
 }
 
 function buscarExperts(req, res) {
-  var idExpert = req.params.id;
-  console.log(idExpert);
-  User.findById(idExpert).exec((err, result) => {
-    console.log(result);
+  var idLocation = req.params.location;
+  console.log(idLocation)
+  if (!idLocation) {
+    var result = User.find({});
+  } else {
+    var result = User.find({ location: mongoose.Types.ObjectId(idLocation) });
+  }
+
+  result.exec(function (err, result) {
     if (err) {
       res
         .status(500)
@@ -176,20 +186,50 @@ function buscarExperts(req, res) {
 function userToExpert(req, res) {
   jwt.verify(req.token, "secretKey", (error, authData) => {
     if (error) {
-      res.json({message: error});
+      res.json({ message: error });
     } else {
       var id = req.params.id;
-      User.findOneAndUpdate({ _id: id },req.body,{ new: true }, function (err, expert) {
-          if (err) {
-            res.send(err);
-          }else{
-            res.json({message: "Usuario actualizado"});
-          }
+      User.findOneAndUpdate({ _id: id }, req.body, { new: true }, function (err, expert) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json({ message: "Usuario actualizado" });
         }
+      }
       );
     }
   });
 }
+
+function getUserByNick(req, res) {
+  jwt.verify(req.token, "secretKey", (error, authData) => {
+    if (error) {
+      res.json({ message: error });
+    } else {
+
+      var nick = req.params.nick;
+      var result = User.findOne({ nickname: nick });
+
+      result.exec(function (err, result) {
+        if (err) {
+          res
+            .status(500)
+            .send({ message: "Error al momento de ejecutar la solicitud" });
+        } else {
+          if (!result) {
+            res
+              .status(404)
+              .send({ message: "El registro a buscar no se encuentra disponible" });
+          } else {
+            res.status(200).send({ result });
+          }
+        }
+      });
+
+    }
+  });
+}
+
 
 module.exports = {
   prueba,
@@ -201,5 +241,6 @@ module.exports = {
   deleteUser,
   validToken,
   buscarExperts,
-  userToExpert
+  userToExpert,
+  getUserByNick
 };
