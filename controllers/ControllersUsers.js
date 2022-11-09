@@ -102,9 +102,9 @@ function validToken(req, res) {
 
 function buscarData(req, res) {
   var idExpert = req.params.id;
-  console.log(idExpert);
+  // console.log(idExpert);
   User.findById(idExpert).exec((err, result) => {
-    console.log(result);
+    // console.log(result);
     if (err) {
       res
         .status(500)
@@ -164,7 +164,7 @@ function buscarExperts(req, res) {
     } else {
 
       var idLocation = req.params.location;
-      console.log(idLocation)
+      // console.log(idLocation)
       if (!idLocation) {
         var result = User.find({});
       } else {
