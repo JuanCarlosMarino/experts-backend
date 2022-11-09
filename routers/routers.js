@@ -10,7 +10,7 @@ router.get("/app", controllerUsers.prueba);//Ruta con método get de prueba de l
 //Manejo de usuarios
 router.post('/user/create',controllerUsers.saveUser);//Ruta con método post para crear cuenta de usuario
 router.post('/user/login', controllerUsers.login); //Ruta con método post parra loggearse y obtener token
-router.put('/user/update/:nick', controllerTokens.verifyToken,controllerUsers.updateUser);//Ruta con método put para actualizar un usuario
+router.post('/user/update/:nick', controllerTokens.verifyToken,controllerUsers.updateUser);//Ruta con método put para actualizar un usuario
 router.get('/user/valid/token',controllerTokens.verifyToken, controllerUsers.validToken);//Validar token
 
 router.get('/user/locationExperts/:location' ,controllerTokens.verifyToken, controllerUsers.buscarExperts)//consultar expertos por ubicacion 
