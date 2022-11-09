@@ -75,7 +75,7 @@ function updateUser(req, res) {
       if (user.location) {
         user.location = mongoose.Types.ObjectId(user.location)
       }
-      User.findOneAndUpdate({ nickname: nick }, user , { new: true }, function (err, expert) {
+      User.findOneAndUpdate({ nickname: nick }, user, { new: true }, function (err, expert) {
         if (err) {
           res.send(err);
         } else {
@@ -158,27 +158,35 @@ function deleteUser(req, res) {
 }
 
 function buscarExperts(req, res) {
-  var idLocation = req.params.location;
-  console.log(idLocation)
-  if (!idLocation) {
-    var result = User.find({});
-  } else {
-    var result = User.find({ location: mongoose.Types.ObjectId(idLocation) });
-  }
-
-  result.exec(function (err, result) {
-    if (err) {
-      res
-        .status(500)
-        .send({ message: "Error al momento de ejecutar la solicitud" });
+  jwt.verify(req.token, "secretKey", (error, authData) => {
+    if (error) {
+      res.json({ message: error });
     } else {
-      if (!result) {
-        res
-          .status(404)
-          .send({ message: "El registro a buscar no se encuentra disponible" });
+
+      var idLocation = req.params.location;
+      console.log(idLocation)
+      if (!idLocation) {
+        var result = User.find({});
       } else {
-        res.status(200).send({ result });
+        var result = User.find({ location: mongoose.Types.ObjectId(idLocation) });
       }
+
+      result.exec(function (err, result) {
+        if (err) {
+          res
+            .status(500)
+            .send({ message: "Error al momento de ejecutar la solicitud" });
+        } else {
+          if (!result) {
+            res
+              .status(404)
+              .send({ message: "El registro a buscar no se encuentra disponible" });
+          } else {
+            res.status(200).send({ result });
+          }
+        }
+      });
+
     }
   });
 }

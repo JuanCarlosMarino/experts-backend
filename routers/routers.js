@@ -13,7 +13,7 @@ router.post('/user/login', controllerUsers.login); //Ruta con método post parra
 router.put('/user/update/:nick', controllerTokens.verifyToken,controllerUsers.updateUser);//Ruta con método put para actualizar un usuario
 router.get('/user/valid/token',controllerTokens.verifyToken, controllerUsers.validToken);//Validar token
 
-router.get('/user/locationExperts/:location' , controllerUsers.buscarExperts)//consultar expertos por ubicacion 
+router.get('/user/locationExperts/:location' ,controllerTokens.verifyToken, controllerUsers.buscarExperts)//consultar expertos por ubicacion 
 router.get('/user/userbynick/:nick' , controllerTokens.verifyToken, controllerUsers.getUserByNick)//consultar usuario por su nick
 
 
