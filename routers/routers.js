@@ -18,7 +18,7 @@ router.get('/user/userbynick/:nick' , controllerTokens.verifyToken, controllerUs
 
 
 //Manejo de ubicaciones 
-router.get('/location/locations', controllerLocations.listarAllLocations)//consultar ubicaciones registradas
+router.get('/location/locations', controllerTokens.verifyToken, controllerLocations.listarAllLocations)//consultar ubicaciones registradas
 
 
 
